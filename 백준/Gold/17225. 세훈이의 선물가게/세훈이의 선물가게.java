@@ -15,7 +15,7 @@ public class Main {
 		@Override
 		public int compareTo(Order o) {
 			if(this.s == o.s) {
-				return o.c - this.c;
+				return this.c - o.c;
 			}
 			return this.s - o.s;
 		}
@@ -42,18 +42,18 @@ public class Main {
 			for(int j = 0; j < m; j++) { // 주문 한 번씩
 				if(c == 'B') {
 					if(bMax >= t) { // 상민의 포장이 끝나는 시간보다 t가 빠를 경우 시작 시간이 bMax
-						pq.add(new Order(bMax, 'b'));
+						pq.add(new Order(bMax, c));
 						bMax += b;
 					} else { // 상민의 포장이 끝나는 시간보다 t가 늦을 경우 pq에 시작시간과 t와 함께 등록
-						pq.add(new Order(t, 'b'));
+						pq.add(new Order(t, c));
 						bMax = t + b;
 					}
 				} else {
 					if(rMax >= t) {
-						pq.add(new Order(rMax, 'r'));
+						pq.add(new Order(rMax, c));
 						rMax += r;
 					} else {
-						pq.add(new Order(t, 'r'));
+						pq.add(new Order(t, c));
 						rMax = t + r;
 					}
 				}
@@ -67,7 +67,7 @@ public class Main {
 		while(!pq.isEmpty()) {
 			Order order = pq.poll();
 			
-			if(order.c == 'b') {
+			if(order.c == 'B') {
 				blue.add(idx);
 			} else {
 				red.add(idx);
