@@ -30,7 +30,7 @@ class Solution {
                 
                 for(char x : current.toCharArray()) {
                 	nm[x-'0'] -= 1;
-                	flag = true;
+                	flag = true; // 이유 : 처음부터 true로 세팅했더니, 바로 자릿수가 바뀌는 경우를 대비하지 못 해서 틀렸다고 떴음
                     if(nm[x-'0'] < 0) {
                         flag = false;
                         break;
@@ -49,7 +49,13 @@ class Solution {
         bw.close();
         br.close();
 
-    
+	}
+}
 
-}
-}
+// 다른 코드 : 
+// array 소팅을 진행하여 순서대로 정렬
+// possible = false로 시작하여
+// while true인 동안 반복문 진행
+	// 자릿수 길이가 달라지면 break;
+// 현재 배수를 sort하여 비교, 모두 동일하면 possible = true;
+	// sortedN.equals(new String(arr))
