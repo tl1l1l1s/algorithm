@@ -1,28 +1,42 @@
-// a = sc.nextInt();                           // int 변수 1개 입력받는 예제
-// b = sc.nextDouble();                        // double 변수 1개 입력받는 예제
-// AB = sc.nextLong();                         // long 변수 1개 입력받는 예제
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Solution
-{
-	public static void main(String args[]) throws Exception
-	{
-		Scanner sc = new Scanner(System.in);
-		int T;
-		T=sc.nextInt();
-		for(int test_case = 1; test_case <= T; test_case++)
-		{
-            int L = sc.nextInt(); // L분 이상
-            int U = sc.nextInt(); // U분 이하
-            int X = sc.nextInt(); // 이번 주에 한 운동
-            // 초과 -> -1, 이하 -> 얼마나 더 필요한지
-            
-            if(X > U) {
-                System.out.println("#" + test_case + " " + -1);
-            } else { // X가 U를 초과하지 않는 경우 = 운동이 얼마나 더 필요한가
-                System.out.println("#" + test_case + " " + (X-L > 0 ? 0 : L-X));
-            }
+class Solution {
+
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st;
+		
+		// L 분 이상 U분 이하
+		// 이번 주 X분
+		
+		int T = Integer.parseInt(br.readLine());
+		
+		for(int tc=1; tc<=T; tc++) {
+			st = new StringTokenizer(br.readLine());
+			
+			int L = Integer.parseInt(st.nextToken());
+			int U = Integer.parseInt(st.nextToken());
+			int X = Integer.parseInt(st.nextToken());
+			
+			int result = 0;
+			// 제한 시간 이하 = 0, 넘었으면 -1
+			// 필요 조건 못 맞췄으면 얼마나 더 필요한지
+			
+			if(L-X > 0) {
+				result = L-X;
+			}
+		
+			bw.write("#" + tc + " " + (result != 0 ? result : (
+					U-X > 0 ? 0 : -1)) + "\n");
+
 		}
+
+		bw.flush();
+		bw.close();
+		br.close();
+
 	}
+
 }
