@@ -1,68 +1,86 @@
 import java.io.*;
 import java.util.*;
 
-class Solution {
+public class Solution {
+	static int result;
+	static int[] nums;
+	static Set<String>[] visited;
 	
-	static int max;
-	static int swapCount;
-	static Set<String> visited;
-	
-	static void swap(char[] arr, int i, int j) {
-		char temp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = temp;
-		return;
+	static String toStr(int[] nums) {
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<nums.length; i++) {
+			sb.append(nums[i]);
+		}
+		return sb.toString();
 	}
 	
-	static void solution(char[] arr, int count) {
-		
-		if(count == 0) {
-			max = Math.max(max, 
-					Integer.parseInt(new String(arr)) // arr을 String으로 형 변환 후 parseInt();로 한 번에 변경
-					);
+	static int toInteger(int[] nums) {
+		int result = 0;
+		int k = 1;
+		for(int i=nums.length-1; i>=0; i--) {
+			result += nums[i] * k;
+			k *= 10;
+		}
+		return result;
+	}
+
+	static void findBiggestNum(int[] currentNum, int change) {
+		if(visited[change].contains(toStr(currentNum))) return;
+		visited[change].add(toStr(currentNum));
+		if(change == 0) {
+			result = Math.max(result, toInteger(currentNum));
 			return;
 		}
 		
-		String key = new String(arr) + count; // visited 확인, 비트마스킹처럼 현재 값 + 2회 변경한 경우가 있는지 확인
-		if(visited.contains(key)) return;
-		visited.add(key);
-		
-		for(int i=0; i<arr.length-1; i++) {
-			for(int j=i+1; j<arr.length; j++) {
-				swap(arr, i, j);
-				solution(arr, count-1);
-				swap(arr, j, i);
+		for(int i=0; i<currentNum.length; i++) {
+			for(int j=i+1; j<currentNum.length; j++) {
+				if(i != j){
+					int temp = currentNum[i];
+					currentNum[i] =  currentNum[j];
+					currentNum[j] = temp;
+					
+					findBiggestNum(currentNum, change-1);	
+							
+					temp = currentNum[i];
+					currentNum[i] = currentNum[j];
+					currentNum[j] = temp;
+				}
 			}
 		}
-		
-		return;
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringTokenizer st;
 		
+		// 퀴즈 우승 시 보너스 상금
+		// 정해진 횟수만큼 서로 자리 위치 교환 가능
+		// 제일 큰 값
+		// 동일한 교환도 OK
 		int T = Integer.parseInt(br.readLine());
-		
 		for(int tc=1; tc<=T; tc++) {
 			st = new StringTokenizer(br.readLine());
-            max = 0;
 			
-			String str = st.nextToken();
-			int C = Integer.parseInt(st.nextToken());
-			visited = new HashSet<>();
+			String num = st.nextToken();
+			nums = new int[num.length()];
+			for(int i=0; i<nums.length; i++) {
+				nums[i] = num.charAt(i) - '0';
+			}
+			int change = Integer.parseInt(st.nextToken());
+			visited = new HashSet[change+1];
+			for(int i=0; i<=change; i++) {
+				visited[i] = new HashSet<>();
+			}
 			
-			solution(str.toCharArray(), C);
+			result = 0;
+			findBiggestNum(nums, change);
 			
-			bw.write("#" + tc + " " + max + "\n");
+			bw.write("#" + tc + " " + result + "\n");	
 		}
-
 
 		bw.flush();
 		bw.close();
 		br.close();
-
 	}
-
 }
