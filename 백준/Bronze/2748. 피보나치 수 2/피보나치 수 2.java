@@ -1,23 +1,33 @@
+import java.util.*;
+import java.lang.*;
 import java.io.*;
 
-public class Main {
+class Main {
+    static long[] fib;
+    static long sol(int k) {
+        if(k <= 1) {
+            return k;
+        }
+        
+        if(fib[k] != -1) return fib[k];
 
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        return fib[k] = (sol(k-1) + sol(k-2));
+    }
+    
+    public static void main(String[] args) throws IOException {
 
-		int n = Integer.parseInt(br.readLine());
-		long[] dp = new long[n+1];
-		
-		dp[0] = 0;
-		dp[1] = 1;
-		for(int i=2; i<=n; i++) {
-			dp[i] = dp[i-1] + dp[i-2];
-		}
-		
-		bw.write(dp[n] + "\n");
-		bw.flush();
-		bw.close();
-		br.close();
-	}
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringTokenizer st;
+
+        int N = Integer.parseInt(br.readLine());
+        fib = new long[N+1];
+        Arrays.fill(fib, -1);
+        
+        bw.write(String.valueOf(sol(N)));
+        bw.flush();
+        bw.close();
+        br.close();
+        
+    }
 }
