@@ -15,8 +15,10 @@ class Solution {
         }
 
         for(int i=0; i<nums.length; i++) {
-            if(map.get(target - nums[i]) != null
-            && map.get(target - nums[i]) != i) {
+            Integer j = map.get(target - nums[i]);
+
+            if(j != null
+            && j != i) {
                 ans.add(i);
                 ans.add(map.get(target - nums[i]));
                 break;
