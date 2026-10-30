@@ -12,10 +12,6 @@ class Solution {
         
         @Override
         public int compareTo(Task o) {
-            if(this.in == o.in) {
-                return this.in - o.in;
-            }
-            
             return this.in - o.in;
         }
     }
