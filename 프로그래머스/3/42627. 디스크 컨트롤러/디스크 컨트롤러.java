@@ -55,23 +55,23 @@ class Solution {
         }
         
         int now = 0;
-        while(!pq.isEmpty()) {
+        
+        while (!pq.isEmpty() || !temp.isEmpty()) {
             // now 시간보다 같거나 빠르게 들어온 것들 || pq.peek()의 도착 시간
                 // poll 하고, peek 했을 때 now와 동일/작은 게 있으면 temp에 넣음
-            if(pq.peek().in > now) now = pq.peek().in;
-            while(!pq.isEmpty() && pq.peek().in <= now) {
-                Task tempT = pq.poll();
-                temp.offer(new Task2(tempT.in, tempT.takes));
+            if (temp.isEmpty() && !pq.isEmpty() && pq.peek().in > now) {
+                now = pq.peek().in;
             }
-            
+
+            while (!pq.isEmpty() && pq.peek().in <= now) {
+                Task t = pq.poll();
+                temp.offer(new Task2(t.in, t.takes));
+            }
+
             Task2 current = temp.poll();
+
             now += current.takes;
             answer += now - current.in;
-            
-            while(!temp.isEmpty()) {
-                Task2 tempT = temp.poll();
-                pq.offer(new Task(tempT.in, tempT.takes));
-            }
         }
         
         return answer / jobs.length;
